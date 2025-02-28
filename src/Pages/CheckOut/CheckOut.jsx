@@ -7,6 +7,7 @@ import axios from "axios";
 import { tokenContext } from "../../Components/TokenContext/TokenContext";
 import { CartContext } from "../../Components/Context/CartContext";
 import Cart from "../Cart/Cart";
+import { jwtDecode } from "jwt-decode";
 
 export default function CheckOut() {
   const [error, setError] = useState(null);
@@ -18,9 +19,15 @@ export default function CheckOut() {
     setNOfCartItems,
     setCartId,
     onlinPayment,
-    userId,
+
     cartId,
   } = useContext(CartContext);
+
+  const token = localStorage.getItem("token");
+
+  const decoded = jwtDecode(token);
+
+  const userId = decoded.id;
   const { setToken } = useContext(tokenContext);
   const navigate = useNavigate();
   const initialValues = {
